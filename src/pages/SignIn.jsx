@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
 
 const SignIn = ({ history }) => {
   const classes = useStyles();
+  const { currentUser } = useContext(AuthContext);
+
+  console.log(currentUser);
 
   const handleSubmit = useCallback(
     async (event) => {
@@ -50,9 +53,7 @@ const SignIn = ({ history }) => {
     [history],
   );
 
-  const { user } = useContext(AuthContext);
-
-  if (user) {
+  if (currentUser) {
     return <Redirect to="/" />;
   }
 

@@ -5,11 +5,19 @@ import firebaseApp from './firebase';
 export const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [pending, setPending] = useState(true);
 
   useEffect(() => {
-    firebaseApp.auth().onAuthStateChanged(setUser);
+    firebaseApp.auth().onAuthStateChanged((user) => {
+      setCurrentUser(user);
+      setPending(false);
+    });
   }, []);
 
-  return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>;
+  if (pending) {
+    return <>Загрузка...</>;
+  }
+
+  return <AuthContext.Provider value={{ currentUser }}>{children}</AuthContext.Provider>;
 };
