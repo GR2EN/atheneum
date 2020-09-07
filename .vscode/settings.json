@@ -1,0 +1,12 @@
+{
+  "[javascript]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true
+    }
+  },
+  "[javascriptreact]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true
+    }
+  }
+}
