@@ -14,9 +14,9 @@ const App = () => {
       <Router>
         <Switch>
           <PrivateRoute component={Home} exact path="/" />
-          <PrivateRoute component={SignOut} path="/sign-out" />
-          <Route component={SignIn} path="/sign-in" />
-          <Route component={SignUp} path="/sign-up" />
+          <PrivateRoute component={SignOut} path="/logout" />
+          <Route component={SignIn} path="/login" />
+          <Route component={SignUp} path="/register" />
         </Switch>
       </Router>
     </AuthProvider>
