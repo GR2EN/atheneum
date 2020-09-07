@@ -10,7 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
 import { AuthContext } from '../auth';
-import firebaseApp from '../firebase';
+import firebase from '../firebase';
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -42,7 +42,7 @@ const SignIn = ({ history }) => {
       const { email, password } = event.target.elements;
 
       try {
-        await firebaseApp.auth().signInWithEmailAndPassword(email.value, password.value);
+        await firebase.auth().signInWithEmailAndPassword(email.value, password.value);
         history.push('/');
       } catch (e) {
         console.log(e);

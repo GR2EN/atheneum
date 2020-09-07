@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
-import firebaseApp from '../firebase';
+import firebase from '../firebase';
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -41,7 +41,7 @@ const SignUp = ({ history }) => {
       const { email, password } = event.target.elements;
 
       try {
-        await firebaseApp.auth().createUserWithEmailAndPassword(email.value, password.value);
+        await firebase.auth().createUserWithEmailAndPassword(email.value, password.value);
         history.push('/');
       } catch (e) {
         console.log(e);

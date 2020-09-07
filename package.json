@@ -33,13 +33,17 @@
     "@material-ui/icons": "^4.9.1",
     "axios": "^0.20.0",
     "firebase": "^7.19.1",
+    "formik": "^2.1.5",
+    "formik-material-ui": "^3.0.0-alpha.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",
+    "react-redux-firebase": "^3.7.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.3",
     "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "yup": "^0.29.3"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",

@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 
-import firebaseApp from '../firebase';
+import firebase from '../firebase';
 
 const SignOut = () => {
   useEffect(() => {
-    firebaseApp.auth().signOut();
+    firebase.auth().signOut();
   }, []);
 
-  return <h1>Выполняется перенаправление...</h1>;
+  return <>Выполняется перенаправление...</>;
 };
 
 export default SignOut;
