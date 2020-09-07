@@ -3,9 +3,9 @@ import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import { AuthProvider } from './Auth';
+import { AuthProvider } from './auth';
+import { PrivateRoute } from './components';
 import { Home, SignIn, SignOut, SignUp } from './pages';
-import PrivateRoute from './PrivateRoute';
 
 const App = () => {
   return (

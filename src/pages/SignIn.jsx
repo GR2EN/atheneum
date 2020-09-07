@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
-import { AuthContext } from '../Auth';
+import { AuthContext } from '../auth';
 import firebaseApp from '../firebase';
 
 const useStyles = makeStyles((theme) => ({
