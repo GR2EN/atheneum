@@ -48,7 +48,7 @@
     "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
     "react/jsx-props-no-spreading": ["error", { "custom": "ignore" }],
     "react/jsx-sort-props": ["error", { "ignoreCase": true }],
-    "react/jsx-closing-bracket-location": ["error", "after-props"],
+    "react/jsx-closing-bracket-location": ["error", "tag-aligned"],
     "react/jsx-tag-spacing": [
       "error",
       {
