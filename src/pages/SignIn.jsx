@@ -35,8 +35,6 @@ const SignIn = ({ history }) => {
   const classes = useStyles();
   const { currentUser } = useContext(AuthContext);
 
-  console.log(currentUser);
-
   const handleSubmit = useCallback(
     async (event) => {
       event.preventDefault();
