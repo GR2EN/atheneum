@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { Layout } from './components';
-import { Home, SignIn, SignOut, SignUp } from './pages';
+import { Classes, Dashboard, Profile, Schedule, SignIn, SignOut, SignUp, Students } from './pages';
 
 const App = ({ loggedIn, emailVerified }) => {
   let routes;
@@ -20,7 +20,11 @@ const App = ({ loggedIn, emailVerified }) => {
     routes = (
       <Layout>
         <Switch>
-          <Route component={Home} exact path="/" />
+          <Route component={Dashboard} exact path="/" />
+          <Route component={Schedule} path="/schedule" />
+          <Route component={Classes} path="/classes" />
+          <Route component={Students} path="/students" />
+          <Route component={Profile} path="/profile" />
           <Route component={SignOut} exact path="/logout" />
           <Redirect to="/" />
         </Switch>

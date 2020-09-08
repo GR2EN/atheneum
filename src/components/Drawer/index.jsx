@@ -16,11 +16,11 @@ import SchoolIcon from '@material-ui/icons/School';
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
-    width: 240,
+    width: 250,
     flexShrink: 0,
   },
   drawerPaper: {
-    width: 240,
+    width: 250,
   },
   toolbar: theme.mixins.toolbar,
   linkActive: {
