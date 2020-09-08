@@ -2,26 +2,29 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import { Home, SignIn, SignOut, SignUp, VerifyEmail } from './pages';
+import { Layout } from './components';
+import { Home, SignIn, SignOut, SignUp } from './pages';
 
 const App = ({ loggedIn, emailVerified }) => {
   let routes;
 
   if (loggedIn && !emailVerified) {
     routes = (
-      <Switch>
-        <Route component={VerifyEmail} exact path="/verify-email" />
-        <Route component={SignOut} exact path="/logout" />
-        <Redirect to="/verify-email" />
-      </Switch>
+      <Layout>
+        <Switch>
+          <Route component={SignOut} exact path="/logout" />
+        </Switch>
+      </Layout>
     );
   } else if (loggedIn && emailVerified) {
     routes = (
-      <Switch>
-        <Route component={Home} exact path="/" />
-        <Route component={SignOut} exact path="/logout" />
-        <Redirect to="/" />
-      </Switch>
+      <Layout>
+        <Switch>
+          <Route component={Home} exact path="/" />
+          <Route component={SignOut} exact path="/logout" />
+          <Redirect to="/" />
+        </Switch>
+      </Layout>
     );
   } else {
     routes = (
