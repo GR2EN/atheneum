@@ -29,7 +29,7 @@ const Layout = ({ children }) => {
   return (
     <div className={classes.root}>
       <AppBar handleDrawerToggle={toggleDrawerOpen} />
-      <Drawer handleDrawerToggle={toggleDrawerOpen} isOpen={drawerIsOpen} />
+      <Drawer handleDrawerToggle={toggleDrawerOpen} open={drawerIsOpen} />
       <Container className={classes.content} component="main">
         <div className={classes.toolbar} />
         {children}

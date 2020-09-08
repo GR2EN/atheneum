@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Drawer = ({ isOpen, handleDrawerToggle }) => {
+const Drawer = ({ open, handleDrawerToggle }) => {
   const classes = useStyles();
 
   const drawerContent = (
@@ -76,7 +76,7 @@ const Drawer = ({ isOpen, handleDrawerToggle }) => {
             keepMounted: true,
           }}
           onClose={handleDrawerToggle}
-          open={isOpen}
+          open={open}
           variant="temporary"
         >
           {drawerContent}
