@@ -1,19 +1,25 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
+import { isEmpty, isLoaded } from 'react-redux-firebase';
 import { Redirect, Route } from 'react-router-dom';
 
-import { AuthContext } from '../../auth';
-
-const PrivateRoute = ({ component: RouteComponent, ...rest }) => {
-  const { currentUser } = useContext(AuthContext);
-
+const PrivateRoute = ({ component: RouteComponent, auth, ...rest }) => {
   return (
     <Route
       {...rest}
       render={(routeProps) =>
-        currentUser ? <RouteComponent {...routeProps} /> : <Redirect to="/login" />
+        isLoaded(auth) && !isEmpty(auth) ? (
+          <RouteComponent {...routeProps} />
+        ) : (
+          <Redirect to="/login" />
+        )
       }
     />
   );
 };
 
-export default PrivateRoute;
+const mapStateToProps = ({ firebase }) => ({
+  auth: firebase.auth,
+});
+
+export default connect(mapStateToProps)(PrivateRoute);
