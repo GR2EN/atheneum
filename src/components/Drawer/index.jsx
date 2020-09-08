@@ -1,20 +1,12 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 
-import Divider from '@material-ui/core/Divider';
 import MuiDrawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import PeopleIcon from '@material-ui/icons/People';
-import ScheduleIcon from '@material-ui/icons/Schedule';
-import SchoolIcon from '@material-ui/icons/School';
 
-const useStyles = makeStyles((theme) => ({
+import DrawerMenu from './Menu';
+
+const useStyles = makeStyles({
   drawer: {
     width: 250,
     flexShrink: 0,
@@ -22,48 +14,10 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     width: 250,
   },
-  toolbar: theme.mixins.toolbar,
-  linkActive: {
-    backgroundColor: 'rgba(0, 0, 0, 0.08)',
-  },
-}));
+});
 
 const Drawer = ({ open, handleDrawerToggle }) => {
   const classes = useStyles();
-
-  const drawerContent = (
-    <>
-      <div className={classes.toolbar} />
-      <Divider />
-      <List>
-        <ListItem activeClassName={classes.linkActive} button component={NavLink} exact to="/">
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText>Панель управления</ListItemText>
-        </ListItem>
-        <ListItem activeClassName={classes.linkActive} button component={NavLink} to="/schedule">
-          <ListItemIcon>
-            <ScheduleIcon />
-          </ListItemIcon>
-          <ListItemText>Расписание</ListItemText>
-        </ListItem>
-        <ListItem activeClassName={classes.linkActive} button component={NavLink} to="/classes">
-          <ListItemIcon>
-            <SchoolIcon />
-          </ListItemIcon>
-          <ListItemText>Классы</ListItemText>
-        </ListItem>
-        <ListItem activeClassName={classes.linkActive} button component={NavLink} to="/students">
-          <ListItemIcon>
-            <PeopleIcon />
-          </ListItemIcon>
-          <ListItemText>Ученики</ListItemText>
-        </ListItem>
-      </List>
-      <Divider />
-    </>
-  );
 
   return (
     <>
@@ -79,7 +33,7 @@ const Drawer = ({ open, handleDrawerToggle }) => {
           open={open}
           variant="temporary"
         >
-          {drawerContent}
+          <DrawerMenu />
         </MuiDrawer>
       </Hidden>
       <Hidden smDown>
@@ -89,7 +43,7 @@ const Drawer = ({ open, handleDrawerToggle }) => {
           className={classes.drawer}
           variant="permanent"
         >
-          {drawerContent}
+          <DrawerMenu />
         </MuiDrawer>
       </Hidden>
     </>

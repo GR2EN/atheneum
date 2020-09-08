@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
 
-import Menu from './Menu';
+import AppBarMenu from './Menu';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -53,7 +53,7 @@ const AppBar = ({ handleDrawerToggle }) => {
         <IconButton className={classes.accountButton} color="inherit" onClick={handleOpenMenu}>
           <AccountCircle />
         </IconButton>
-        <Menu anchorEl={menuAnchorEl} handleCloseMenu={handleCloseMenu} open={menuIsOpen} />
+        <AppBarMenu anchorEl={menuAnchorEl} handleCloseMenu={handleCloseMenu} open={menuIsOpen} />
       </Toolbar>
     </MuiAppBar>
   );
