@@ -9,24 +9,30 @@ export const signUp = ({ email, password, firstName, lastName }) => async (
   try {
     const res = await firebase.auth().createUserWithEmailAndPassword(email, password);
 
+    const user = firebase.auth().currentUser;
+    await user.sendEmailVerification();
+
     await firestore.collection('users').doc(res.user.uid).set({
       firstName,
       lastName,
     });
 
     dispatch({ type: 'AUTH_SUCCESS' });
-  } catch (e) {
-    dispatch({ type: 'AUTH_FAIL', payload: e.message });
+  } catch (err) {
+    dispatch({ type: 'AUTH_FAIL', payload: err.message });
   }
   dispatch({ type: 'AUTH_END' });
 };
 
-export const signOut = () => async (dispatch, getState, { getFirebase }) => {
+export const verifyEmail = () => async (dispatch, getState, { getFirebase }) => {
   const firebase = getFirebase();
+  dispatch({ type: 'VERIFY_START' });
   try {
-    await firebase.logout();
-  } catch (e) {
-    console.log(e.message);
+    const user = firebase.auth().currentUser;
+    await user.sendEmailVerification();
+    dispatch({ type: 'VERIFY_SUCCESS' });
+  } catch (err) {
+    dispatch({ type: 'VERIFY_FAIL', payload: err.message });
   }
 };
 
@@ -36,8 +42,17 @@ export const signIn = ({ email, password }) => async (dispatch, getState, { getF
   try {
     await firebase.auth().signInWithEmailAndPassword(email, password);
     dispatch({ type: 'AUTH_SUCCESS' });
-  } catch (e) {
-    dispatch({ type: 'AUTH_FAIL', payload: e.message });
+  } catch (err) {
+    dispatch({ type: 'AUTH_FAIL', payload: err.message });
   }
   dispatch({ type: 'AUTH_END' });
+};
+
+export const signOut = () => async (dispatch, getState, { getFirebase }) => {
+  const firebase = getFirebase();
+  try {
+    await firebase.logout();
+  } catch (err) {
+    console.log(err.message);
+  }
 };
