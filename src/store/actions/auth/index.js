@@ -20,7 +20,7 @@ export const signUp = ({ email, password, firstName, lastName }) => async (
     });
 
     dispatch({ type: 'AUTH_SUCCESS' });
-    history.push('/test');
+    history.push('/');
   } catch (err) {
     dispatch({ type: 'AUTH_FAIL', payload: err.message });
   }
@@ -45,7 +45,7 @@ export const signIn = ({ email, password }) => async (dispatch, getState, { getF
   try {
     await firebase.auth().signInWithEmailAndPassword(email, password);
     dispatch({ type: 'AUTH_SUCCESS' });
-    history.push('/test');
+    history.push('/');
   } catch (err) {
     dispatch({ type: 'AUTH_FAIL', payload: err.message });
   }
