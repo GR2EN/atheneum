@@ -1,13 +1,18 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 
-import firebase from '../firebase';
+import { signOut } from '../store/actions';
 
-const SignOut = () => {
+const SignOut = ({ logout }) => {
   useEffect(() => {
-    firebase.auth().signOut();
+    logout();
   }, []);
 
   return <>Выполняется перенаправление...</>;
 };
 
-export default SignOut;
+const mapDispatchToProps = {
+  logout: signOut,
+};
+
+export default connect(null, mapDispatchToProps)(SignOut);

@@ -24,7 +24,7 @@ export const signUp = ({ email, password, firstName, lastName }) => async (
 export const signOut = () => async (dispatch, getState, { getFirebase }) => {
   const firebase = getFirebase();
   try {
-    await firebase.auth().signOut();
+    await firebase.logout();
   } catch (e) {
     console.log(e.message);
   }
