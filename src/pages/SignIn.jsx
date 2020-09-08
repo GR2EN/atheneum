@@ -1,20 +1,28 @@
-import React, { useCallback, useContext } from 'react';
-import { Redirect, withRouter } from 'react-router-dom';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import { Field, Form, Formik } from 'formik';
+import { TextField } from 'formik-material-ui';
+import * as Yup from 'yup';
 
-import { AuthContext } from '../auth';
-import firebase from '../firebase';
+import { signIn } from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
   box: {
     marginTop: theme.spacing(8),
+    marginBottom: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -26,34 +34,57 @@ const useStyles = makeStyles((theme) => ({
   form: {
     width: '100%', // Fix IE 11 issue
   },
+  error: {
+    padding: theme.spacing(0, 2, 3, 2),
+    textAlign: 'center',
+  },
   submit: {
     margin: theme.spacing(3, 0, 0),
   },
 }));
 
-const SignIn = ({ history }) => {
-  const classes = useStyles();
-  const { currentUser } = useContext(AuthContext);
+const Input = ({ ...props }) => {
+  return <TextField fullWidth required variant="outlined" {...props} />;
+};
 
-  const handleSubmit = useCallback(
-    async (event) => {
-      event.preventDefault();
+const PasswordField = ({ ...props }) => {
+  const [passwordVisibility, setPasswordVisibility] = useState(false);
 
-      const { email, password } = event.target.elements;
+  const togglePasswordVisibility = () => {
+    setPasswordVisibility((prevState) => !prevState);
+  };
 
-      try {
-        await firebase.auth().signInWithEmailAndPassword(email.value, password.value);
-        history.push('/');
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    [history],
+  const handleMouseDown = (event) => {
+    event.preventDefault();
+  };
+
+  return (
+    <TextField
+      fullWidth
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton onClick={togglePasswordVisibility} onMouseDown={handleMouseDown}>
+              {passwordVisibility ? <VisibilityOffIcon /> : <VisibilityIcon />}
+            </IconButton>
+          </InputAdornment>
+        ),
+      }}
+      required
+      type={passwordVisibility ? 'text' : 'password'}
+      variant="outlined"
+      {...props}
+    />
   );
+};
 
-  if (currentUser) {
-    return <Redirect to="/" />;
-  }
+const LoginSchema = Yup.object().shape({
+  email: Yup.string().email('Проверьте правильность email.').required('Введите email.'),
+  password: Yup.string().required('Введите пароль.').min(8, 'Минимальная длина пароля 8 символов.'),
+});
+
+const SignIn = ({ login, loading, error }) => {
+  const classes = useStyles();
 
   return (
     <Container maxWidth="sm">
@@ -62,41 +93,61 @@ const SignIn = ({ history }) => {
           Авторизация
         </Typography>
         <Paper className={classes.paper}>
-          <form className={classes.form} noValidate onSubmit={handleSubmit}>
-            <TextField
-              autoFocus
-              fullWidth
-              id="email"
-              label="Email"
-              margin="normal"
-              name="email"
-              required
-              variant="outlined"
-            />
-            <TextField
-              fullWidth
-              id="password"
-              label="Пароль"
-              margin="normal"
-              name="password"
-              required
-              type="password"
-              variant="outlined"
-            />
-            <Button
-              className={classes.submit}
-              color="primary"
-              fullWidth
-              type="submit"
-              variant="contained"
-            >
-              Войти
-            </Button>
-          </form>
+          {error && (
+            <Box className={classes.error}>
+              <Typography color="error" gutterBottom>
+                {error}
+              </Typography>
+            </Box>
+          )}
+
+          <Formik
+            initialValues={{
+              email: '',
+              password: '',
+            }}
+            onSubmit={async (values, { setSubmitting }) => {
+              await login(values);
+              setSubmitting(false);
+            }}
+            validationSchema={LoginSchema}
+          >
+            {({ isSubmitting, isValid }) => (
+              <Form className={classes.form}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Field autoFocus component={Input} label="Email" name="email" type="email" />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field component={PasswordField} label="Пароль" name="password" />
+                  </Grid>
+                </Grid>
+                <Button
+                  className={classes.submit}
+                  color="primary"
+                  disabled={!isValid || isSubmitting}
+                  fullWidth
+                  type="submit"
+                  variant="contained"
+                >
+                  {loading ? <CircularProgress size="1.5rem" /> : 'Войти'}
+                </Button>
+              </Form>
+            )}
+          </Formik>
         </Paper>
       </Box>
     </Container>
   );
 };
 
-export default withRouter(SignIn);
+const mapStateToProps = ({ auth }) => ({
+  loading: auth.loading,
+  error: auth.error,
+});
+
+const mapDispatchToProps = {
+  login: signIn,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
