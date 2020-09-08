@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 
 import MuiAppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
@@ -7,6 +7,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
+
+import Menu from './Menu';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -27,7 +29,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AppBar = ({ handleDrawerToggle }) => {
+  const [menuAnchorEl, setMenuAnchorEl] = useState(null);
+  const menuIsOpen = Boolean(menuAnchorEl);
   const classes = useStyles();
+
+  const handleOpenMenu = useCallback(({ currentTarget }) => {
+    setMenuAnchorEl(currentTarget);
+  });
+
+  const handleCloseMenu = useCallback(() => {
+    setMenuAnchorEl(null);
+  });
 
   return (
     <MuiAppBar className={classes.appBar}>
@@ -38,9 +50,10 @@ const AppBar = ({ handleDrawerToggle }) => {
         <Typography noWrap variant="h6">
           Atheneum
         </Typography>
-        <IconButton className={classes.accountButton} color="inherit">
+        <IconButton className={classes.accountButton} color="inherit" onClick={handleOpenMenu}>
           <AccountCircle />
         </IconButton>
+        <Menu anchorEl={menuAnchorEl} handleCloseMenu={handleCloseMenu} open={menuIsOpen} />
       </Toolbar>
     </MuiAppBar>
   );
